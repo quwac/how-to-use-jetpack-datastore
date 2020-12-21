@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-parcelize'
-apply plugin: 'com.google.protobuf'
+apply plugin: 'com.squareup.wire'
 
 android {
     compileSdkVersion 29
@@ -53,8 +53,8 @@ dependencies {
     // Proto DataStore
     implementation "androidx.datastore:datastore-core:1.0.0-alpha05"
 
-    // protobuf
-    implementation  "com.google.protobuf:protobuf-javalite:3.13.0"
+    def wire_grpc_version = '3.5.0'
+    implementation "com.squareup.wire:wire-moshi-adapter:$wire_grpc_version"
 
     implementation "androidx.lifecycle:lifecycle-livedata-core-ktx:2.2.0"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0"
@@ -62,18 +62,8 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
 }
 
-protobuf {
-    protoc {
-        artifact = "com.google.protobuf:protoc:3.13.0"
-    }
-
-    generateProtoTasks {
-        all().each { task ->
-            task.builtins {
-                java {
-                    option 'lite'
-                }
-            }
-        }
+wire {
+    kotlin {
+        javaInterop = true
     }
 }
