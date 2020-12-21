@@ -9,13 +9,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MainViewModel(
-        application: Application,
+    application: Application,
 ) : AndroidViewModel(application) {
 
     private val repository = Repository(getApplication())
     val exampleText = repository.getExampleTextFlow_preference().asLiveData()
 
-    fun saveText(newValue: String)  {
+    fun saveText(newValue: String) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.save_preference(newValue)
         }
@@ -23,7 +23,7 @@ class MainViewModel(
 
     val exampleNumber = repository.getExampleNumberFlow_proto().asLiveData()
 
-    fun saveNumber(newValue: Int)  {
+    fun saveNumber(newValue: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.save_proto(newValue)
         }

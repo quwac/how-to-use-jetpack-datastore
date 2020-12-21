@@ -1,14 +1,14 @@
 package io.github.quwac.how_to_use_jetpack_datastore.ui.main
 
 import android.content.Context
-import androidx.datastore.CorruptionException
-import androidx.datastore.DataStore
-import androidx.datastore.Serializer
+import androidx.datastore.core.CorruptionException
+import androidx.datastore.core.DataStore
+import androidx.datastore.core.Serializer
 import androidx.datastore.createDataStore
-import androidx.datastore.preferences.Preferences
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.preferencesKey
 import androidx.datastore.preferences.createDataStore
-import androidx.datastore.preferences.edit
-import androidx.datastore.preferences.preferencesKey
 import androidx.datastore.preferences.protobuf.InvalidProtocolBufferException
 import com.example.application.Settings
 import kotlinx.coroutines.flow.Flow
@@ -18,8 +18,8 @@ import java.io.OutputStream
 
 class Repository(context: Context) {
     companion object {
-        private val EXAMPLE_COUNTER: Preferences.Key<String>
-                = preferencesKey<String>("example_counter")
+        private val EXAMPLE_COUNTER: Preferences.Key<String> =
+            preferencesKey<String>("example_counter")
     }
 
     private val preferenceDataStore: DataStore<Preferences> = context.createDataStore(
@@ -50,6 +50,9 @@ class Repository(context: Context) {
             t: Settings,
             output: OutputStream
         ) = t.writeTo(output)
+
+        override val defaultValue: Settings
+            get() = Settings.getDefaultInstance()
     }
 
     private val protoDataStore: DataStore<Settings> = context.createDataStore(
